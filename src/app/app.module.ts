@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MenubarModule } from 'primeng/menubar';
 
     ButtonModule,
     InputTextModule,
-    MenubarModule
+    MenubarModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

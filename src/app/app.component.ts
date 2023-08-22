@@ -11,12 +11,22 @@ import { BehaviorSubject, Observable, map, startWith } from 'rxjs';
 export class AppComponent implements OnInit {
 	title = 'angular-lazy-loaded';
 
-	search = new FormControl('');
+	searchInput = new FormControl('');
+
+	visible: boolean = false;
+
+	showDialog() {
+		this.visible = true;
+	}
+
+	hideDialog(){
+		this.visible = false;
+	}
 
 	items = [
 		{ name: "Okta Users", shortDescription: "Use Okta to look up users", url: "/identity-services/user/45" },
 		{ name: "Okta Groups", shortDescription: "Use Okta to look up groups", url: "/identity-services/group/45" },
-		{ name: "EOA Home", shortDescription: "Home page of EOA", url: "/" },
+		{ name: "App Home", shortDescription: "Home page of app", url: "/" },
 	]
 
 
@@ -27,7 +37,7 @@ export class AppComponent implements OnInit {
 	$items = new Observable<any[]>();
 
 	constructor() {
-		this.$items = this.search.valueChanges.pipe(
+		this.$items = this.searchInput.valueChanges.pipe(
 			startWith(""),
 			map(e => this.createResultsFromSearchQuery(e))
 		);
