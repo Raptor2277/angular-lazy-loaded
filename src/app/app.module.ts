@@ -1,8 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
+//non angular imports
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+//============================primeng======================
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { MenubarModule } from 'primeng/menubar';
 
 @NgModule({
   declarations: [
@@ -10,7 +18,13 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+
+    ButtonModule,
+    InputTextModule,
+    MenubarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
