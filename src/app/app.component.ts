@@ -1,55 +1,77 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { OKTA_AUTH, OktaAuthStateService } from '@okta/okta-angular';
+import OktaAuth, { AuthState } from '@okta/okta-auth-js';
 import { MenuItem, TreeNode } from 'primeng/api';
-import { BehaviorSubject, Observable, map, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, startWith } from 'rxjs';
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-	title = 'angular-lazy-loaded';
+    title = 'angular-lazy-loaded';
 
-	searchInput = new FormControl('');
+    searchInput = new FormControl('');
 
-	visible: boolean = false;
+    visible: boolean = false;
 
-	showDialog() {
-		this.visible = true;
-	}
+    showDialog() {
+        this.visible = true;
+    }
 
-	hideDialog(){
-		this.visible = false;
-	}
+    hideDialog() {
+        this.visible = false;
+    }
 
-	items = [
-		{ name: "Okta Users", shortDescription: "Use Okta to look up users", url: "/identity-services/user/45" },
-		{ name: "Okta Groups", shortDescription: "Use Okta to look up groups", url: "/identity-services/group/45" },
-		{ name: "App Home", shortDescription: "Home page of app", url: "/" },
-	]
+    items = [
+        { name: "Okta Users", shortDescription: "Use Okta to look up users", url: "/identity-services/user/45" },
+        { name: "Okta Groups", shortDescription: "Use Okta to look up groups", url: "/identity-services/group/45" },
+        { name: "App Home", shortDescription: "Home page of app", url: "/" },
+    ]
 
 
-	items2: MenuItem[] | undefined;
+    items2: MenuItem[] | undefined;
 
     home: MenuItem | undefined;
 
-	$items = new Observable<any[]>();
+    $items = new Observable<any[]>();
 
-	constructor() {
-		this.$items = this.searchInput.valueChanges.pipe(
-			startWith(""),
-			map(e => this.createResultsFromSearchQuery(e))
-		);
+    public isAuthenticated$: Observable<boolean>;
 
+    public oktaAuthState$!: Observable<AuthState>;
 
-	}
-	ngOnInit(): void {
-		this.items2 = [
+    constructor(
+        private router: Router,
+        private oktaStateService: OktaAuthStateService,
+        @Inject(OKTA_AUTH) private oktaAuth: OktaAuth,
+    ) {
+        this.$items = this.searchInput.valueChanges.pipe(
+            startWith(""),
+            map(e => this.createResultsFromSearchQuery(e))
+        );
+
+        this.isAuthenticated$ = this.oktaStateService.authState$.pipe(
+            filter((s: AuthState) => !!s),
+            map((s: AuthState) => s.isAuthenticated ?? false)
+        );
+
+        this.oktaAuthState$ = this.oktaStateService.authState$.pipe(
+            filter((authState: AuthState) => !!authState && !!authState.isAuthenticated)
+        );
+
+        this.oktaAuthState$.subscribe(console.log);
+
+    }
+
+    ngOnInit(): void {
+        this.items2 = [
             {
                 label: 'File',
                 icon: 'pi pi-fw pi-file',
-				styleClass: '.fdaasdf',
+                styleClass: '.fdaasdf',
                 items: [
                     {
                         label: 'New',
@@ -169,36 +191,45 @@ export class AppComponent implements OnInit {
                 icon: 'pi pi-fw pi-power-off'
             }
         ];
-	}
+    }
 
-	private createResultsFromSearchQuery(searchQuery: string | null): any[] {
-		var results: any[] = [];
-		if (!searchQuery) return results;
 
-		let normalizedSearchQuery = searchQuery.toLowerCase();
-		for (let item of this.items) {
-			let nameResult = this.searchAndBreakDown(item.name, item.name.toLowerCase(), normalizedSearchQuery);
-			let shortDescriptionResult = this.searchAndBreakDown(item.shortDescription, item.shortDescription.toLowerCase(), normalizedSearchQuery);
+    public async signIn(): Promise<void> {
+        await this.oktaAuth.signInWithRedirect();
+    }
 
-			if (!nameResult.hasMatch && !shortDescriptionResult.hasMatch) continue;
+    public async signOut(): Promise<void> {
+        await this.oktaAuth.signOut();
+    }
 
-			results.push({ url: item.url, nameResult, shortDescriptionResult })
-		}
+    private createResultsFromSearchQuery(searchQuery: string | null): any[] {
+        var results: any[] = [];
+        if (!searchQuery) return results;
 
-		console.log(results)
+        let normalizedSearchQuery = searchQuery.toLowerCase();
+        for (let item of this.items) {
+            let nameResult = this.searchAndBreakDown(item.name, item.name.toLowerCase(), normalizedSearchQuery);
+            let shortDescriptionResult = this.searchAndBreakDown(item.shortDescription, item.shortDescription.toLowerCase(), normalizedSearchQuery);
 
-		return results;
-	}
+            if (!nameResult.hasMatch && !shortDescriptionResult.hasMatch) continue;
 
-	private searchAndBreakDown(text: string, normalizedText: string, normalizedSearchQuery: string): any | null {
-		let indexOf = normalizedText.indexOf(normalizedSearchQuery);
-		if (indexOf == -1) return { hasMatch: false, pre: text, highlight: "", post: "" };
+            results.push({ url: item.url, nameResult, shortDescriptionResult })
+        }
 
-		let start = 0;
-		let midStart = indexOf;
-		let midEnd = indexOf + normalizedSearchQuery.length;
-		let end = text.length;
+        console.log(results)
 
-		return { hasMatch: true, pre: text.substring(start, midStart), highlight: text.substring(midStart, midEnd), post: text.substring(midEnd, end) }
-	}
+        return results;
+    }
+
+    private searchAndBreakDown(text: string, normalizedText: string, normalizedSearchQuery: string): any | null {
+        let indexOf = normalizedText.indexOf(normalizedSearchQuery);
+        if (indexOf == -1) return { hasMatch: false, pre: text, highlight: "", post: "" };
+
+        let start = 0;
+        let midStart = indexOf;
+        let midEnd = indexOf + normalizedSearchQuery.length;
+        let end = text.length;
+
+        return { hasMatch: true, pre: text.substring(start, midStart), highlight: text.substring(midStart, midEnd), post: text.substring(midEnd, end) }
+    }
 }

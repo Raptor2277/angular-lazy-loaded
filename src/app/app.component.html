@@ -30,4 +30,21 @@
 </p-dialog>
 
 
+<ng-container *ngIf="(isAuthenticated$ | async) === false; else signout">
+	<button (click)="signIn()"> Sign in </button>
+  </ng-container>
+  
+  <ng-template #signout>
+	<button (click)="signOut()">Sign out</button>
+  </ng-template>
+
+  <div class="profile-card">
+    <div class="shield"></div>
+    <p *ngIf="oktaAuthState$ | async as authstate">
+        Hello {{authstate.idToken?.claims?.name}}!
+    </p>
+  </div>
+
+
+
 <router-outlet></router-outlet>
