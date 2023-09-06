@@ -12,11 +12,11 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { DialogModule } from 'primeng/dialog';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 //============================okta======================
 import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
-import { LoginCallbackComponent } from './login-callback/login-callback.component';
 
 const oktaAuth = new OktaAuth({
   issuer: 'https://trial-4458022.okta.com/oauth2/default',
@@ -31,7 +31,6 @@ const oktaAuth = new OktaAuth({
 @NgModule({
   declarations: [
     AppComponent,
-    LoginCallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -39,10 +38,12 @@ const oktaAuth = new OktaAuth({
     AppRoutingModule,
     ReactiveFormsModule,
 
+
     ButtonModule,
     InputTextModule,
     MenubarModule,
     DialogModule,
+    BreadcrumbModule,
 
     OktaAuthModule.forRoot({ oktaAuth }),
   ],

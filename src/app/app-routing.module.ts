@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginCallbackComponent } from './login-callback/login-callback.component';
 import { OktaCallbackComponent } from '@okta/okta-angular';
 
 const routes: Routes = [
@@ -16,6 +15,10 @@ const routes: Routes = [
   {
     path: "identity-services",
     loadChildren: () => import("./modules/identity-services/identity-services.module").then(m => m.IdentityServicesModule)
+  },
+  {
+    path: "dashboards",
+    loadChildren: () => import("./modules/dashboards/dashboards.module").then(m => m.DashboardsModule)
   },
 ];
 

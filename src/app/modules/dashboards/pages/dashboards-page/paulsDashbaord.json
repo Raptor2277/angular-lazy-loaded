@@ -1,0 +1,11 @@
+{
+    "id": "fa-fadfs-afdaf-afdfa-",
+    "grid" : {
+        "display": "grid",
+        grid-template-columns: repeat(6, 1fr),
+        grid-template-rows: 100px 350px 350px,
+    },
+    "charts": [
+        {"chartId": "fadsfasfasf", }
+    ],
+}
