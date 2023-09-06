@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 //non angular imports
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 
 //============================primeng======================
 import { ButtonModule } from 'primeng/button';
@@ -17,6 +16,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 //============================okta======================
 import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
+import { RootComponent } from './components/root/root.component';
 
 const oktaAuth = new OktaAuth({
   issuer: 'https://trial-4458022.okta.com/oauth2/default',
@@ -30,14 +30,13 @@ const oktaAuth = new OktaAuth({
 
 @NgModule({
   declarations: [
-    AppComponent,
+    RootComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-
 
     ButtonModule,
     InputTextModule,
@@ -48,6 +47,6 @@ const oktaAuth = new OktaAuth({
     OktaAuthModule.forRoot({ oktaAuth }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [RootComponent]
 })
 export class AppModule { }

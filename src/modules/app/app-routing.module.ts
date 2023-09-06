@@ -5,7 +5,7 @@ import { OktaCallbackComponent } from '@okta/okta-angular';
 const routes: Routes = [
   {
     path: "",
-    loadChildren: () => import("./modules/home/home.module").then(m => m.HomeModule)
+    loadChildren: () => import("../home/home.module").then(m => m.HomeModule)
   },
   {
     path: "login/callback",
@@ -14,11 +14,11 @@ const routes: Routes = [
 
   {
     path: "identity-services",
-    loadChildren: () => import("./modules/identity-services/identity-services.module").then(m => m.IdentityServicesModule)
+    loadChildren: () => import("../identity-services/identity-services.module").then(m => m.IdentityServicesModule)
   },
   {
     path: "dashboards",
-    loadChildren: () => import("./modules/dashboards/dashboards.module").then(m => m.DashboardsModule)
+    loadChildren: () => import("../dashboards/dashboards.module").then(m => m.DashboardsModule)
   },
 ];
 
