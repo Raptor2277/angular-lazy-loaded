@@ -14,9 +14,9 @@ import { AppsListsService } from '../../services/apps-lists.service';
 })
 export class RootComponent implements OnInit {
 
-    
+
     appList!: any[];
-    
+
     dialogSearchInput = new FormControl('');
     dialogVisible: boolean = false;
     dialogShow = () => this.dialogVisible = true;
@@ -53,7 +53,7 @@ export class RootComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.menuItems = [{ label: 'Dashboards', routerLink: "/dashboards" }, { label: 'Dashboard1' }];
+        this.menuItems = [{ label: 'Dashboards', routerLink: "/dashboards" }, { label: 'dashboard-builder', routerLink: "dashboard-builder" }];
         this.menuHome = { icon: 'pi pi-home', routerLink: '/' };
     }
 

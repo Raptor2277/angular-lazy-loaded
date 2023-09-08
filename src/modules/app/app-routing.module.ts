@@ -20,6 +20,10 @@ const routes: Routes = [
     path: "dashboards",
     loadChildren: () => import("../dashboards/dashboards.module").then(m => m.DashboardsModule)
   },
+  {
+    path: "dashboard-builder",
+    loadChildren: () => import("../dashboard-builder/dashboard-builder.module").then(m => m.DashboardBuilderModule)
+  },
 ];
 
 @NgModule({

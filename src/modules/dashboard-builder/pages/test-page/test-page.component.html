@@ -1,0 +1,53 @@
+<div class="flex gap-4 m-2">
+
+    <gridstack class="w-9" [options]="gridOptions" (changeCB)="onChange($event)">
+    </gridstack>
+
+    <div id="widgetDragger" class="w-3 flex flex-column gap-2">
+
+        <h2>Drag and Drop Widgets</h2>
+
+        <input>
+        
+        <div id="sidebar" class="flex flex-wrap">
+
+            <div class="w-6 p-1">
+                <div class="grid-stack-item">
+                    <div class="grid-stack-item-content">
+                        <div>Chart 1</div>
+                        <div>Image of chart</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-6 p-1">
+                <div class="grid-stack-item">
+                    <div class="grid-stack-item-content">
+                        <div>Small Card</div>
+                        <div>Image of chart</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="w-12">
+
+                <div class="grid-stack-item" gs-w="2" gs-h="2">
+                    <div class="grid-stack-item-content">
+                        <div>Big Chart</div>
+                        <div>Image of chart</div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="trash" class="w-12" style="background-color: red; height: 5rem;">
+            trash
+        </div>
+
+    </div>
+
+
+</div>

@@ -9,7 +9,8 @@ import { ChartComponent } from './components/chart/chart.component';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 
-
+import { EChartComponent } from './components/e-chart/e-chart.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [
@@ -18,18 +19,23 @@ import { CardModule } from 'primeng/card';
     PieGraphComponent,
     BaseChartComponent,
     WidgetComponent,
-    ChartComponent
+    ChartComponent,
+    EChartComponent
   ],
   imports: [
     CommonModule,
 
     ChartModule,
     CardModule,
+
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
   ],
   exports: [
     BarGraphComponent,
     LineGraphComponent,
-    PieGraphComponent
+    PieGraphComponent,
+
+    EChartComponent
   ]
 })
 export class WidgetsModule { }
